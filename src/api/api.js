@@ -43,7 +43,10 @@ export const TodoListsAPI = {
     return instance.put(`todo-lists/${todolistId}`, {
       putAfterItemId
     });
-  },
+  }
+};
+
+export const TodoAPI = {
   getTodos: (todolistId, count = 10, page = 1) => {
     return instance.get(`todo-lists/${todolistId}?count=${count}&page=${page}`);
   },
