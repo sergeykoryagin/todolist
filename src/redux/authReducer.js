@@ -37,8 +37,8 @@ export function setAuthUserData(id, email, login, isAuth) {
 export function authMe() {
   return async dispatch => {
     const response = await AuthAPI.me();
-    if (response.resultCode === 0) {
-      const {id, email, login} = response.data;
+    if (response.data.resultCode === 0) {
+      const {id, email, login} = response.data.data;
       dispatch(setAuthUserData(id, email, login, true));
     }
   };
@@ -47,7 +47,7 @@ export function authMe() {
 export function login(email, password, rememberMe) {
   return async dispatch => {
     const response = await AuthAPI.login(email, password, rememberMe);
-    if (response.resultCode === 0) {
+    if (response.data.resultCode === 0) {
       dispatch(authMe());
     }
   };
@@ -55,8 +55,10 @@ export function login(email, password, rememberMe) {
 
 export function logout() {
   return async dispatch => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     const response = await AuthAPI.logout();
-    if (response.resultCode === 0) {
+    if (response.data.resultCode === 0) {
       dispatch(setAuthUserData(null, null, null, false));
     }
   };
