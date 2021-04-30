@@ -1,5 +1,7 @@
 //actions
-const INITIALIZE = 'todo-lists/app/INITIALIZE';
+import {authMe} from './authReducer';
+
+const INITIALIZE_SUCCESS = 'todo-lists/app/INITIALIZE_SUCCESS';
 
 //initial state
 const initialState = {
@@ -9,7 +11,7 @@ const initialState = {
 //reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-  case INITIALIZE:
+  case INITIALIZE_SUCCESS:
     return {
       ...state,
       initialized: true
@@ -20,8 +22,16 @@ export default function reducer(state = initialState, action) {
 }
 
 //action creators
-export function initialize() {
+export function initializeSuccess() {
   return {
-    type: INITIALIZE
+    type: INITIALIZE_SUCCESS
+  };
+}
+
+//thunks
+export function initializeApp() {
+  return async dispatch => {
+    await dispatch(authMe());
+    dispatch(initializeSuccess());
   };
 }
