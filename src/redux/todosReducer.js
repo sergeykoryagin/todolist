@@ -9,6 +9,7 @@ export const DELETE_TODO = 'todo-list/todos/DELETE_TODO';
 const initialState = {
   todolistId: null,
   totalCount: 0,
+  title: '',
   page: 1,
   todos: []
 };
@@ -19,7 +20,9 @@ export default function reducer(state = initialState, action) {
   case SET_TODOS:
     return {
       todolistId: action.todolistId,
+      title: action.title,
       totalCount: action.totalCount,
+      page: action.page,
       todos: action.todos,
     };
   case UPDATE_TODO:
@@ -45,10 +48,10 @@ export default function reducer(state = initialState, action) {
 }
 
 //action creators
-export function setTodos(todolistId, todos, totalCount, page) {
+export function setTodos(todolistId, title, todos, totalCount, page) {
   return {
     type: SET_TODOS,
-    todolistId, todos, totalCount, page
+    todolistId, title, todos, totalCount, page
   };
 }
 
@@ -68,7 +71,7 @@ export function deleteTodoFromState(taskId) {
 
 
 //thunks
-export function getTodos(todolistId, count, page) {
+export function getTodos(todolistId, count = 10, page = 1) {
   return async dispatch => {
     const response = await TodoAPI.getTodos(todolistId, count, page);
     dispatch(setTodos(todolistId, response.items, response.totalCount, page));
