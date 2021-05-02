@@ -55,8 +55,6 @@ export function login(email, password, rememberMe) {
 
 export function logout() {
   return async dispatch => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const response = await AuthAPI.logout();
     if (response.data.resultCode === 0) {
       dispatch(setAuthUserData(null, null, null, false));
