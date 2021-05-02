@@ -1,36 +1,35 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {connect, Provider} from 'react-redux';
+import {useDispatch, Provider, useSelector} from 'react-redux';
 import store from '../redux/store';
 import {initializeApp} from '../redux/appReducer';
-import TodoList from './TodoList';
-import LoginForm from './Login/Login';
+import LoginForm from './components/Login/Login';
+import Header from './components/Header/Header';
+import TodoList from './components/TodoList/TodoList';
 
-const mapStateToProps = state => ({
-  initialized: state.app.initialized,
-  isAuth: state.auth.isAuth
-});
+const TodoApp = () => {
+  const initialized = useSelector(state => state.app.initialized);
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(initializeApp());
+  }, [initialized]);
 
-const TodoApp = connect(mapStateToProps, {initializeApp})(
-  ({initialized, initializeApp, isAuth}) => {
-    useEffect(() => {
-      initializeApp();
-    }, [initialized]);
-
-    if (!initialized) {
-      return <div>LOADING...</div>;
-    }
-    return (
-      <>
-        {!isAuth
-          ? <LoginForm/>
-          : <TodoList/>
-        }
-      </>
-    );
+  if (!initialized) {
+    return <div>LOADING...</div>;
   }
-);
+
+  return (
+    <>
+      <Header isAuth={isAuth} dispatch={dispatch}/>
+      {!isAuth
+        ? <LoginForm dispatch={dispatch}/>
+        : <TodoList dispatch={dispatch}/>
+      }
+    </>
+  );
+};
 
 
 const App = () => (

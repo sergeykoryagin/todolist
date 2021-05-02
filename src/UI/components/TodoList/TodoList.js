@@ -3,7 +3,6 @@ import Todos from './Todos/Todos';
 import {useSelector} from 'react-redux';
 import Settings from './Settings';
 
-// eslint-disable-next-line react/prop-types
 const TodoList = ({dispatch}) => {
   const todolistId = useSelector(state => state.todos.todolistId);
   const todos = useSelector(state => state.todos.todos);
